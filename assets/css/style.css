@@ -1,0 +1,48 @@
+:root{--navy:#136F58;--navy2:#0E5846;--gold:#C9A24A;--bg:#F6F8F7;--text:#1F2A26;--muted:#6B7A74;--ok:#1e7e4f;--bad:#b3261e;--warn:#b7791f}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:auto;padding:0 20px}
+header{background:var(--navy);color:#fff}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:68px}
+.logo{font-weight:800;font-size:1.4rem;display:inline-flex;align-items:center;gap:8px}.logo small{font-weight:400;font-size:.75rem;color:#cfe5de;margin-inline-start:4px}.material-symbols-rounded{font-size:1.5em;vertical-align:middle;color:var(--gold)}
+nav a{margin-inline-start:22px;color:#d6ebe4;font-size:.95rem}nav a:hover{color:var(--gold)}
+.hero{background:linear-gradient(var(--navy),var(--navy2));color:#fff;padding:64px 0 90px;text-align:center}
+.hero h1{font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800}
+.hero p{color:#d6ebe4;max-width:560px;margin:12px auto 30px}
+.box{background:#fff;color:var(--text);max-width:640px;margin:auto;border-radius:14px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:200px;padding:14px 16px;border:1.5px solid #d3dfda;border-radius:10px;font:inherit;direction:ltr;text-align:center}
+input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+.btn{border:0;cursor:pointer;font:inherit;font-weight:700;padding:13px 26px;border-radius:10px;background:var(--gold);color:var(--navy);transition:.2s}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn.sec{background:#edf3f0;color:var(--navy)}
+.btn.line{background:transparent;border:1.5px solid var(--navy);color:var(--navy)}
+.err{color:var(--bad);font-size:.9rem;margin-top:8px;min-height:1.4em}
+#scanArea{display:none;margin-top:14px}#reader{width:100%;border-radius:10px;overflow:hidden}
+section{padding:56px 0}h2{color:var(--navy);margin-bottom:22px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:#fff;border-radius:12px;padding:22px;border:1px solid #e1e9e5}
+.card b.n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--gold);margin-bottom:8px}
+.note{max-width:720px;margin:auto;text-align:center;color:var(--muted)}
+footer{background:var(--navy);color:#b5d3c9;text-align:center;padding:26px 0;font-size:.9rem}
+/* result */
+.status{border-radius:14px;padding:22px;text-align:center;color:#fff;margin:34px auto 20px;max-width:760px}
+.status h1{font-size:1.7rem}.s-VALID{background:var(--ok)}.s-REVOKED,.s-ERROR{background:var(--bad)}.s-EXPIRED{background:var(--warn)}.s-NOT_FOUND{background:var(--muted)}
+.details{max-width:760px;margin:auto;background:#fff;border-radius:12px;border:1px solid #e1e9e5}
+.details div{display:flex;justify-content:space-between;gap:16px;padding:12px 20px;border-bottom:1px solid #edf3f0}
+.details div:last-child{border:0}.details span:first-child{color:var(--muted)}.details span:last-child{font-weight:700;text-align:left}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.spin{width:38px;height:38px;border:4px solid #dde3ec;border-top-color:var(--gold);border-radius:50%;margin:60px auto;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
+/* certificate paper */
+.paper{width:297mm;height:210mm;background:#fffdf8;margin:30px auto;padding:14mm;position:relative;zoom:var(--z,1);box-shadow:0 6px 24px rgba(0,0,0,.15)}
+.paper .frame{height:100%;border:2.5mm double var(--gold);padding:10mm;text-align:center;display:flex;flex-direction:column;justify-content:space-between;color:var(--navy)}
+.paper .plogo{font-size:28pt;font-weight:800}.paper .plogo .material-symbols-rounded{font-size:1em}
+.paper h3{font-size:30pt;font-weight:800}.paper .sm{color:var(--muted);font-size:13pt}
+.paper .name{font-size:36pt;font-weight:800;border-bottom:1.5px solid var(--gold);display:inline-block;padding:0 30px}
+.paper .course{font-size:22pt;font-weight:700}
+.paper .foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:11pt}
+.sig{width:60mm;border-top:1px solid var(--navy);padding-top:4px;color:var(--muted)}
+#qr img,#qr canvas{margin:auto}
+.hide{display:none!important}
+@media print{@page{size:A4 landscape;margin:0}body{background:#fff}header,footer,.status,.details,.actions,.noprint{display:none!important}.paper{margin:0;box-shadow:none;zoom:1;width:297mm;height:210mm}}

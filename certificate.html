@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نتيجة التحقق | ilogia</title><meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#136F58">
+<link rel="stylesheet" href="assets/css/style.css">
+</head><body>
+<header><div class="wrap"><a class="logo" href="./"><span class="material-symbols-rounded">school</span>ilogia<small>التحقق من الشهادات</small></a><nav><a href="./">تحقق من شهادة أخرى</a></nav></div></header>
+<div class="wrap">
+<div id="loading" class="spin" role="status" aria-label="جاري التحقق"></div>
+<div id="result" class="hide">
+<div id="status" class="status"><h1 id="sTitle"></h1><p id="sSub"></p></div>
+<div id="details" class="details hide"></div>
+<div class="actions" id="acts"><button class="btn" id="pr">🖨 طباعة</button><button class="btn sec" id="cp">نسخ رقم الشهادة</button><button class="btn sec" id="sh">مشاركة رابط التحقق</button></div>
+<div id="paperBox" class="hide">
+<div class="paper" id="paper"><div class="frame">
+<div><div class="plogo"><span class="material-symbols-rounded">school</span>ilogia</div><h3>شهادة إتمام</h3><div class="sm">تشهد ilogia بأن</div></div>
+<div><div class="name" id="pName"></div><div class="sm" style="margin:10px 0">أتم بنجاح</div><div class="course" id="pCourse"></div></div>
+<div class="foot"><div><div class="sig">التوقيع المعتمد</div></div>
+<div><div id="qr"></div></div>
+<div style="text-align:left"><div>تاريخ الإصدار: <b id="pDate"></b></div><div>رقم الشهادة: <b id="pId" style="direction:ltr;display:inline-block"></b></div></div></div>
+</div></div></div></div></div>
+<footer>© ilogia — جميع الحقوق محفوظة</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="assets/js/config.js"></script><script src="assets/js/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const id=extractId(new URLSearchParams(location.search).get("id")||"");
+const fmt=d=>d?new Date(d).toLocaleDateString("ar-EG",{year:"numeric",month:"long",day:"numeric"}):"—";
+const link=CFG.SITE_URL+"/certificate.html?id="+encodeURIComponent(id);
+(async()=>{
+  let d;
+  if(!ID_RE.test(id)) d={status:"NOT_FOUND"}; else d=await verifyCertificate(id);
+  $("loading").classList.add("hide");$("result").classList.remove("hide");
+  $("status").className="status s-"+d.status;$("sTitle").textContent=(d.status==="VALID"?"✔ ":"")+MSG[d.status];
+  $("sSub").textContent={VALID:"تم العثور على الشهادة في سجلات ilogia الرسمية.",REVOKED:"تم إلغاء هذه الشهادة ولا يُعتد بها.",EXPIRED:"انتهت صلاحية هذه الشهادة.",NOT_FOUND:"لا توجد شهادة بهذا الرقم. تأكد من الرقم وحاول مرة أخرى.",ERROR:"حاول مرة أخرى لاحقًا."}[d.status];
+  if(d.status==="VALID"||d.status==="EXPIRED"){
+    const rows=[["اسم الطالب",d.student_name],["رقم الشهادة",id],["الدورة / البرنامج",d.course_title],["نوع الشهادة",d.certificate_type],["تاريخ الإصدار",fmt(d.issue_date)],["تاريخ الإتمام",fmt(d.completion_date)],["الجهة المُصدرة",d.issuer||"ilogia"],["وقت التحقق",new Date(d.verified_at||Date.now()).toLocaleString("ar-EG")]];
+    const box=$("details");box.classList.remove("hide");
+    rows.forEach(([k,v])=>{const r=document.createElement("div");const a=document.createElement("span"),b=document.createElement("span");a.textContent=k;b.textContent=v||"—";r.append(a,b);box.append(r)});
+    $("pName").textContent=d.student_name;$("pCourse").textContent=d.course_title;$("pDate").textContent=fmt(d.issue_date);$("pId").textContent=id;
+    $("paperBox").classList.remove("hide");new QRCode($("qr"),{text:link,width:90,height:90});
+    const fit=()=>{const z=Math.min(1,(innerWidth-30)/(297*3.78));$("paper").style.setProperty("--z",z)};fit();addEventListener("resize",fit);
+  }else $("acts").classList.add("hide");
+})();
+$("pr").onclick=()=>print();
+$("cp").onclick=async e=>{try{await navigator.clipboard.writeText(id);e.target.textContent="تم النسخ ✔"}catch(_){prompt("انسخ الرقم",id)}};
+$("sh").onclick=async()=>{if(navigator.share){try{await navigator.share({title:"التحقق من شهادة ilogia",url:link})}catch(_){}}else{try{await navigator.clipboard.writeText(link);$("sh").textContent="تم نسخ الرابط ✔"}catch(_){prompt("الرابط",link)}}};
+</script></body></html>
