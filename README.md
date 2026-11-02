@@ -4,11 +4,11 @@
 ## الملفات
 - `index.html` الصفحة الرئيسية (إدخال الرقم + مسح QR)
 - `certificate.html?id=...` نتيجة التحقق + شهادة قابلة للطباعة A4 + QR
-- `assets/js/config.js` ضع فيه SUPABASE_URL و anon key فقط
-- `supabase/verify_certificate.sql` دالة التحقق المقترحة (راجعها قبل التنفيذ)
+- `assets/js/config.js` مضبوط على نفس مشروع Supabase بتاع ilogia-eg.com (publishable key فقط)
+- التحقق بيستخدم الدالة الموجودة فعلًا `verify_certificate(p_serial)` ولا يحتاج أي SQL جديد
 
 ## مهم
-- بدون إعداد config.js تظهر "تعذر إجراء التحقق" — لا توجد بيانات وهمية.
+- لو الاتصال فشل تظهر "تعذر إجراء التحقق" — لا توجد بيانات وهمية. صيغة الرقم: ILG-2026-XXXXXXXXXXXX
 - لا تضع service_role في الفرونت أبدًا.
 - لوحة الإدارة (إصدار/إلغاء) تحتاج Backend وتسجيل دخول حقيقي، ولم تُنفَّذ هنا.
 - الـ rate limiting يتم من جهة الخادم (Supabase / Cloudflare) وليس من الفرونت.

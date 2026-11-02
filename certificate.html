@@ -27,7 +27,7 @@
 <script src="assets/js/config.js"></script><script src="assets/js/common.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const id=extractId(new URLSearchParams(location.search).get("id")||"");
+const qs=new URLSearchParams(location.search);const id=extractId(qs.get("id")||qs.get("c")||"");
 const fmt=d=>d?new Date(d).toLocaleDateString("ar-EG",{year:"numeric",month:"long",day:"numeric"}):"—";
 const link=CFG.SITE_URL+"/certificate.html?id="+encodeURIComponent(id);
 (async()=>{
